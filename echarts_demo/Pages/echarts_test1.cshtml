@@ -1,0 +1,62 @@
+﻿@page
+@model echarts_demo.Pages.echarts_test1Model
+@{
+    ViewData["Title"] = "echarts_test1";
+}
+@*<script src="~/lib/echarts/echarts-all.js"></script>*@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/echarts/dist/echarts.min.js"></script>
+<h2>echarts_test1</h2>
+<div id="sdn1" style="width:600px;height:400px;"></div>
+<div id="sdn2" style="width:700px;height:500px;"></div>
+<script type="text/javascript">
+    var sdn1Chart = echarts.init(document.getElementById('sdn1'));//初始化图形报表区域
+    //一下为指定对应的配置
+    var option = {
+        title: {
+            text: "测试echarts"
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+        xAxis: {
+            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
+    sdn1Chart.setOption(option);
+    alert(2);
+    $.get('../lib/echarts/geojson/sz_all.json', function (szJson) {
+        var sdn2Chart = echarts.init(document.getElementById('sdn2'));
+        alert(1);
+        echarts.registerMap('sz', szJson);
+        alert(3);
+       // var chart = echarts.init(document.getElementById('main'));
+        var option2 = {
+            title: {
+                text: "测试echarts"
+            },
+            tooltip: {},
+            legend: {
+                data: ['销量']
+            },
+           
+            series: [{
+                name: '销量',
+                type: 'map',
+                map:'sz'
+            }]
+        };
+        sdn2Chart.setOption(option2);
+    });
+
+</script>
+
+
+
