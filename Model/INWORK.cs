@@ -24,6 +24,7 @@ namespace Model
         private DateTime? _txsj;
         private decimal? _iszb = 2M;
 		private string _zbyh;
+        private decimal? _updep;
         /// <summary>
         /// id
         /// </summary>
@@ -111,6 +112,15 @@ namespace Model
         {
             set { _zbyh = value; }
             get { return _zbyh; }
+        }
+
+        /// <summary>
+        /// 上报处理部门，0：否，1：是
+        /// </summary>
+        public decimal? UPDEP
+        {
+            set { _updep = value; }
+            get { return _updep; }
         }
         #endregion Model
 

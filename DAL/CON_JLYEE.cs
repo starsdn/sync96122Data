@@ -39,9 +39,9 @@ namespace DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into CON_JLYEE(");
-            strSql.Append("ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZR,FYNR,FJDZ,JBRQ,BJRQ,SSLB,BZ,CJR,CJSJ,ZT)");
+            strSql.Append("ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZR,FYNR,FJDZ,JBRQ,BJRQ,SSLB,BZ,CJR,CJSJ,ZT,XJLY)");
             strSql.Append(" values (");
-            strSql.Append(":ID,:BH,:SJBH,:FYR,:LXDH,:FYRQ,:SJR,:BT,:NRZR,:FYNR,:FJDZ,:JBRQ,:BJRQ,:SSLB,:BZ,:CJR,:CJSJ,:ZT)");
+            strSql.Append(":ID,:BH,:SJBH,:FYR,:LXDH,:FYRQ,:SJR,:BT,:NRZR,:FYNR,:FJDZ,:JBRQ,:BJRQ,:SSLB,:BZ,:CJR,:CJSJ,:ZT,:XJLY)");
             OracleParameter[] parameters = {
                     new OracleParameter(":ID", OracleDbType.Varchar2,36),
                     new OracleParameter(":BH", OracleDbType.Varchar2,100),
@@ -60,7 +60,8 @@ namespace DAL
                     new OracleParameter(":BZ", OracleDbType.Varchar2,500),
                     new OracleParameter(":CJR", OracleDbType.Varchar2,36),
                     new OracleParameter(":CJSJ", OracleDbType.Date),
-                    new OracleParameter(":ZT", OracleDbType.Int32,1)};
+                    new OracleParameter(":ZT", OracleDbType.Int32,1),
+                    new OracleParameter(":XJLY", OracleDbType.Varchar2,200)};
             parameters[0].Value = model.ID;
             parameters[1].Value = model.BH;
             parameters[2].Value = model.SJBH;
@@ -79,6 +80,7 @@ namespace DAL
             parameters[15].Value = model.CJR;
             parameters[16].Value = model.CJSJ;
             parameters[17].Value = model.ZT;
+            parameters[18].Value = model.XJLY;
 
             int rows = DbHelperOra_new.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

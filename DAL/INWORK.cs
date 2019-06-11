@@ -39,9 +39,9 @@ namespace DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into INWORK(");
-            strSql.Append("ID,JBSJ,JBDW,CBLX,ZT,CJR,CJSJ,ISTX,TXSJ,ISZB,ZBYH)");
+            strSql.Append("ID,JBSJ,JBDW,CBLX,ZT,CJR,CJSJ,ISTX,TXSJ,ISZB,ZBYH,UPDEP)");
             strSql.Append(" values (");
-            strSql.Append(":ID,:JBSJ,:JBDW,:CBLX,:ZT,:CJR,:CJSJ,:ISTX,:TXSJ,:ISZB,:ZBYH)");
+            strSql.Append(":ID,:JBSJ,:JBDW,:CBLX,:ZT,:CJR,:CJSJ,:ISTX,:TXSJ,:ISZB,:ZBYH,:UPDEP)");
             OracleParameter[] parameters = {
                     new OracleParameter(":ID", OracleDbType.Varchar2,36),
                     new OracleParameter(":JBSJ", OracleDbType.Varchar2,36),
@@ -53,7 +53,8 @@ namespace DAL
                     new OracleParameter(":ISTX", OracleDbType.Int32,4),
                     new OracleParameter(":TXSJ", OracleDbType.Date),
                     new OracleParameter(":ISZB", OracleDbType.Int32,4),
-                    new OracleParameter(":ZBYH", OracleDbType.Varchar2,36)};
+                    new OracleParameter(":ZBYH", OracleDbType.Varchar2,36),
+                    new OracleParameter(":UPDEP", OracleDbType.Int32,4)};
             parameters[0].Value = model.ID;
             parameters[1].Value = model.JBSJ;
             parameters[2].Value = model.JBDW;
@@ -65,6 +66,7 @@ namespace DAL
             parameters[8].Value = model.TXSJ;
             parameters[9].Value = model.ISZB;
             parameters[10].Value = model.ZBYH;
+            parameters[11].Value = model.UPDEP;
 
             int rows = DbHelperOra_new.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

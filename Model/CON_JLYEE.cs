@@ -31,6 +31,7 @@ namespace Model
         private string _cjr;
         private DateTime? _cjsj;
         private decimal? _zt;
+        private string _xjly;
         /// <summary>
         /// 主键ID（32位或36位guid）
         /// </summary>
@@ -174,6 +175,15 @@ namespace Model
         {
             set { _zt = value; }
             get { return _zt; }
+        }
+
+        /// <summary>
+        /// 信件来源
+        /// </summary>
+        public string XJLY
+        {
+            set { _xjly= value; }
+            get { return _xjly; }
         }
         #endregion Model
 
