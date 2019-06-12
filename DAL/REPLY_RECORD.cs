@@ -45,7 +45,7 @@ namespace DAL
 			OracleParameter[] parameters = {
 					new OracleParameter(":ID", OracleDbType.Varchar2,36),
 					new OracleParameter(":CBID", OracleDbType.Varchar2,36),
-					new OracleParameter(":HFNR", OracleDbType.Varchar2,2000),
+					new OracleParameter(":HFNR", OracleDbType.Clob),
 					new OracleParameter(":ZT", OracleDbType.Int32,4),
 					new OracleParameter(":CJR", OracleDbType.Varchar2,36),
 					new OracleParameter(":CJSJ", OracleDbType.Date),
@@ -90,7 +90,7 @@ namespace DAL
 			strSql.Append(" where ID=:ID ");
 			OracleParameter[] parameters = {
 					new OracleParameter(":CBID", OracleDbType.Varchar2,36),
-					new OracleParameter(":HFNR", OracleDbType.Varchar2,2000),
+					new OracleParameter(":HFNR", OracleDbType.Clob),
 					new OracleParameter(":ZT", OracleDbType.Int32,4),
 					new OracleParameter(":CJR", OracleDbType.Varchar2,36),
 					new OracleParameter(":CJSJ", OracleDbType.Date),

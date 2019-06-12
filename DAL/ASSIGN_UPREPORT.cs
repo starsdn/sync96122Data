@@ -31,7 +31,7 @@ namespace DAL
 			OracleParameter[] parameters = {
 					new OracleParameter(":ID", OracleDbType.Varchar2,36),
 					new OracleParameter(":ASSIGN_ID", OracleDbType.Varchar2,36),
-					new OracleParameter(":DEALCONTENT", OracleDbType.Clob,4000),
+					new OracleParameter(":DEALCONTENT", OracleDbType.Clob),
 					new OracleParameter(":FYLX", OracleDbType.Varchar2,8),
 					new OracleParameter(":CREATETIME", OracleDbType.Date),
 					new OracleParameter(":CREATOR", OracleDbType.Varchar2,36),
@@ -72,7 +72,7 @@ namespace DAL
 			OracleParameter[] parameters = {
 					new OracleParameter(":ID", OracleDbType.Varchar2,36),
 					new OracleParameter(":ASSIGN_ID", OracleDbType.Varchar2,36),
-					new OracleParameter(":DEALCONTENT", OracleDbType.Clob,4000),
+					new OracleParameter(":DEALCONTENT", OracleDbType.Clob),
 					new OracleParameter(":FYLX", OracleDbType.Varchar2,8),
 					new OracleParameter(":CREATETIME", OracleDbType.Date),
 					new OracleParameter(":CREATOR", OracleDbType.Varchar2,36),

@@ -121,24 +121,28 @@ namespace syncPlatformData
                     if (string.IsNullOrWhiteSpace(mylyguid)) continue;
 
 
-                    string jbdw = dr["SPONSORID"].ToString(); //承办单位
+                    string jbdw_MY1 = dr["SPONSORID"].ToString(); //承办单位
                     //如遇有多个承办单位，则取第一个为交办单位
-                    if (jbdw.IndexOf(",") >= 0)
+                    if (jbdw_MY1.IndexOf(",") >= 0)
                     {
-                        jbdw = jbdw.Substring(0, jbdw.LastIndexOf(","));
+                        jbdw_MY1 = jbdw_MY1.Substring(0, jbdw_MY1.LastIndexOf(","));
+                    }
+                    string jbdw_MY2 = string.Empty;//民意二期交办单位
+                    if (dicDEPID_GUID.ContainsKey(jbdw_MY1))
+                    {
+                        jbdw_MY2 = dicDEPID_GUID[jbdw_MY1]; //得到字典中对应的ID
                     }
 
                     //添加民意档案数据
                     string con_guid = Guid.NewGuid().ToString("N").ToUpper(); //得到32位大写的 GUID
                     bool conres = MYDangan(con_guid, dr);
-
                     // 添加交办数据
                     string assign_guid = Guid.NewGuid().ToString("N").ToUpper();//得到32位大写的 GUID
-                    Model.ASSIGN model_assign = AssignModel(assign_guid, mylyguid, con_guid, jbdw, dr);
+                    Model.ASSIGN model_assign = AssignModel(assign_guid, mylyguid, con_guid, jbdw_MY2, dr);
 
                     //添加处办数据
                     string inwork_guid = Guid.NewGuid().ToString("N").ToUpper();//得到32位大写的 GUID
-                    Model.INWORK model_inwork = InworkModel(assign_guid, inwork_guid, jbdw, dr);
+                    Model.INWORK model_inwork = InworkModel(assign_guid, inwork_guid, jbdw_MY2, dr);
 
                     //添加部门答复数据
                     Model.REPLY_RECORD model_reply = ReplyModel(inwork_guid, dr);
@@ -152,34 +156,50 @@ namespace syncPlatformData
                     if (!string.IsNullOrWhiteSpace(fjdz))
                     {
                         Model.ASSIGN_UPFJ model_upfj = UpFJModel(upreport_guid, dr);
+                        bool upfjres = new BLL.ASSIGN_UPFJ().Add(model_upfj);
                     }
                     // 添加时间轴数据
 
+
+                    try
+                    {
+                        bool assignres = new BLL.ASSIGN().Add(model_assign);
+                        bool inworkres = new BLL.INWORK().Add(model_inwork);
+                        bool replyres = new BLL.REPLY_RECORD().Add(model_reply);
+                        bool upreportres = new BLL.ASSIGN_UPREPORT().Add(model_upreport);
+                        event_showLogs("成功更新民意数据库，对应ID：" + dr["ID"]);
+                    }
+                    catch (Exception ex)
+                    {
+                        SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);
+                    }
                     #region 更新最大ID
                     try
                     {
                         //更新最大ID
-                        //using (FileStream fs = new FileStream("configs/maxid.txt", FileMode.Open, FileAccess.ReadWrite))
-                        //{
-                        //    using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("UTF-8")))
-                        //    {
-                        //        sw.WriteLine(dr["INFOID"] + "");
-                        //        sw.Close();
-                        //        fs.Close();
-                        //        // Class1 cl = new Class1();
-                        //        event_showLogs("成功更新configs/maxid.txt最大ID：" + dr["INFOID"]);
-                        //        SysLog.WriteOptDisk("成功更新configs/maxid.txt最大ID：" + dr["INFOID"], AppDomain.CurrentDomain.BaseDirectory, 100);
-                        //    }
-                        //}
+                        using (FileStream fs = new FileStream("configs/maxid.txt", FileMode.Open, FileAccess.ReadWrite))
+                        {
+                            using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("UTF-8")))
+                            {
+                                sw.WriteLine(dr["ID"] + "");
+                                sw.Close();
+                                fs.Close();
+                                // Class1 cl = new Class1();
+                                event_showLogs("成功更新configs/maxid.txt最大ID：" + dr["ID"]);
+                                SysLog.WriteOptDisk("成功更新configs/maxid.txt最大ID：" + dr["ID"], AppDomain.CurrentDomain.BaseDirectory, 100);
+                            }
+                        }
                     }
-                    catch
-                    { }
+                    catch (Exception ex)
+                    {
+                        SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);
+                    }
                     #endregion
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);
             }
         }
 
@@ -212,7 +232,7 @@ namespace syncPlatformData
                     // 其他自选项------------分局寒山闻钟、分局政风行风
 
                     case "1":   //支队寒山闻钟---寒山闻钟论坛
-                        #region 
+                        #region  寒山闻钟论坛
                         Model.CON_HSWZ hswz_model = new Model.CON_HSWZ();
                         hswz_model.ID = con_guid;//主键ID（32位或36位guid）
                         hswz_model.BH = dr["SERIALNUMBER"].ToString();//编号
@@ -243,11 +263,11 @@ namespace syncPlatformData
                         hswz_model.ZT = 1;// 状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         //hswz_model.FPSJ = null;//分配时间
                         hswz_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
-
-                        #endregion
-                        break;
+                        bool hswz_res = new BLL.CON_HSWZ().Add(hswz_model);
+                        return hswz_res;
+                    #endregion
                     case "2":   //支队政风行风---12345热线
-                        #region 
+                        #region 12345热线
                         Model.CON_YESSW yessw_model = new Model.CON_YESSW();
                         yessw_model.ID = con_guid;//主键ID（32位或36位guid）
                         yessw_model.BH = dr["SERIALNUMBER"].ToString(); //编号
@@ -280,12 +300,11 @@ namespace syncPlatformData
                         yessw_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         //yessw_model.XBDW = "";//协办单位
                         yessw_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
-
-
-                        #endregion
-                        break;
+                        bool yessw_res = new BLL.CON_YESSW().Add(yessw_model);
+                        return yessw_res;
+                    #endregion
                     case "3":   //96122工单---96122
-                        #region 
+                        #region 96122
                         Model.CON_JLYEE jlyee_model = new Model.CON_JLYEE();
                         jlyee_model.ID = con_guid;// 主键ID（32位或36位guid）
                         jlyee_model.BH = dr["SERIALNUMBER"].ToString(); //编号
@@ -311,12 +330,13 @@ namespace syncPlatformData
                         jlyee_model.CJR = "民意一期";//创建人
                         jlyee_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         jlyee_model.ZT = 1;//状态( 0.删除 1.有效)
-                        //jlyee_model.XJLY = "";// 信件来源
-                        #endregion
-                        break;
+                                           //jlyee_model.XJLY = "";// 信件来源
+                        bool jlyee_res = new BLL.CON_JLYEE().Add(jlyee_model);
+                        return jlyee_res;
+                    #endregion
                     case "5":   //分局寒山闻钟---其他自选项
                     case "6":   //分局政风行风---其他自选项
-                        #region 
+                        #region 其他自选项
                         Model.CON_QTZXX qtzxx_model = new Model.CON_QTZXX();
                         qtzxx_model.ID = con_guid;//键ID（32位或36位guid）
                         qtzxx_model.BH = dr["SERIALNUMBER"].ToString(); //编号
@@ -350,12 +370,12 @@ namespace syncPlatformData
                         qtzxx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         qtzxx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         qtzxx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
-                        //qtzxx_model.XJLY = "";//信件来源
-
-                        #endregion
-                        break;
+                                                                       //qtzxx_model.XJLY = "";//信件来源
+                        bool qtzxx_res = new BLL.CON_QTZXX().Add(qtzxx_model);
+                        return qtzxx_res;
+                    #endregion
                     case "7":   //市局信访处---信访条线
-                        #region 
+                        #region 信访条线
                         Model.CON_XFTX xftx_model = new Model.CON_XFTX();
                         xftx_model.ID = con_guid;// 主键ID（32位或36位guid）
                         //xftx_model.XJLY = "";// 信件来源
@@ -378,7 +398,7 @@ namespace syncPlatformData
                         xftx_model.NRZY = dr["ZHAIYAO"].ToString();//内容摘要
                         //xftx_model.YQ = "";//要求
                         xftx_model.FJDZ = fjdz;//反应内容附件
-                       // xftx_model.FPSJ = null;//分配时间
+                                               // xftx_model.FPSJ = null;//分配时间
                         if (!string.IsNullOrWhiteSpace(jbrqstr))
                         {
                             xftx_model.JBRQ = Convert.ToDateTime(jbrqstr);//交办日期
@@ -391,10 +411,11 @@ namespace syncPlatformData
                         xftx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         xftx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
 
-                        #endregion
-                        break;
+                        bool xftx_res = new BLL.CON_XFTX().Add(xftx_model);
+                        return xftx_res;
+                    #endregion
                     case "8":   //市局纪委---纪委条线
-                        #region 
+                        #region 纪委条线
                         Model.CON_JWTX jwtx_model = new Model.CON_JWTX();
                         jwtx_model.ID = con_guid;//主键ID（32位或36位guid）
                         jwtx_model.BH = dr["SERIALNUMBER"].ToString(); //编号
@@ -430,13 +451,14 @@ namespace syncPlatformData
                         jwtx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
                         //jwtx_model.XJLY = "";//信件来源
 
-                        #endregion
-                        break;
+                        bool jwtx_res = new BLL.CON_JWTX().Add(jwtx_model);
+                        return jwtx_res;
+                    #endregion
                     case "9":   //1号窗口
                     case "10":   //市局平安民声
                         break;
                     case "11":   //支队---支队信件转办
-                        #region 
+                        #region 支队信件转办
                         Model.CON_ZDXJZB zdxjzb_model = new Model.CON_ZDXJZB();
                         zdxjzb_model.ID = con_guid;//主键ID（32位或36位guid）
                         zdxjzb_model.BH = dr["SERIALNUMBER"].ToString(); //编号
@@ -471,10 +493,11 @@ namespace syncPlatformData
                         zdxjzb_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
                         //zdxjzb_model.XJLY = "";//信件来源
 
-                        #endregion
-                        break;
+                        bool zdxjzb_res = new BLL.CON_ZDXJZB().Add(zdxjzb_model);
+                        return zdxjzb_res;
+                    #endregion
                     case "12":   //市局督查---督察条线来信
-                        #region 
+                        #region 督察条线来信
                         Model.CON_DCTXLX dcxtlx_model = new Model.CON_DCTXLX();
                         dcxtlx_model.ID = con_guid;//主键ID（32位或36位guid）
                         dcxtlx_model.BH = dr["SERIALNUMBER"].ToString(); //编号
@@ -509,12 +532,12 @@ namespace syncPlatformData
                         dcxtlx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         dcxtlx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         dcxtlx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名拼接
-                        //dcxtlx_model.XJLY = "";//信件来源
-                        #endregion
-
-                        break;
+                                                                        //dcxtlx_model.XJLY = "";//信件来源
+                        bool dcxtlx_res = new BLL.CON_DCTXLX().Add(dcxtlx_model);
+                        return dcxtlx_res;
+                    #endregion
                     case "13":   //其他---省厅、总队信件办理
-                        #region 
+                        #region 省厅、总队信件办理
                         Model.CON_STZDXJBL stzdxjbl_model = new Model.CON_STZDXJBL();
                         stzdxjbl_model.ID = con_guid;//主键ID（32位或36位guid）
                         //stzdxjbl_model.XJLY = "";//信件来源
@@ -550,13 +573,15 @@ namespace syncPlatformData
                         stzdxjbl_model.ZT = 1;//状态(0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         stzdxjbl_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
 
-                        #endregion
-                        break;
+                        bool stzdxjbl_res = new BLL.CON_STZDXJBL().Add(stzdxjbl_model);
+                        return stzdxjbl_res;
+                    #endregion
                     default: break;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                SysLog.WriteLog(e, AppDomain.CurrentDomain.BaseDirectory);
             }
             return false;
         }
@@ -581,7 +606,11 @@ namespace syncPlatformData
             //model_assign.HFNR = "";//各部门回复内容汇总
             model_assign.ID = assign_guid;
             model_assign.JBDW = jbdw;//交办单位
-            model_assign.JBRQ = Convert.ToDateTime(dr["ASSIGNED_DATE"].ToString()); //交办日期
+            string jbrqstr = dr["ASSIGNED_DATE"].ToString(); //交办日期
+            if (!string.IsNullOrWhiteSpace(jbrqstr))
+            {
+                model_assign.JBRQ = Convert.ToDateTime(jbrqstr);//交办日期
+            }
             //model_assign.JBYQ = "";//交办要求
             //model_assign.LDPS = "";//领导批示
             model_assign.MYLY = mylyguid;

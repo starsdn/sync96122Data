@@ -54,7 +54,7 @@ namespace DAL
                     new OracleParameter(":ZT", OracleDbType.Int32,4),
                     new OracleParameter(":CJR", OracleDbType.Varchar2,36),
                     new OracleParameter(":CJSJ", OracleDbType.Date),
-                    new OracleParameter(":HFNR", OracleDbType.Clob,4000)};
+                    new OracleParameter(":HFNR", OracleDbType.Clob)};
             parameters[0].Value = model.ID;
             parameters[1].Value = model.MYSJDX;
             parameters[2].Value = model.MYLY;
@@ -108,7 +108,7 @@ namespace DAL
                     new OracleParameter(":ZT", OracleDbType.Int32,4),
                     new OracleParameter(":CJR", OracleDbType.Varchar2,36),
                     new OracleParameter(":CJSJ", OracleDbType.Date),
-                    new OracleParameter(":HFNR", OracleDbType.Clob,4000),
+                    new OracleParameter(":HFNR", OracleDbType.Clob),
                     new OracleParameter(":ID", OracleDbType.Varchar2,36)};
             parameters[0].Value = model.MYSJDX;
             parameters[1].Value = model.MYLY;
