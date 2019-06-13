@@ -46,7 +46,7 @@ namespace DAL
 					new OracleParameter(":ID", OracleDbType.Varchar2,36),
 					new OracleParameter(":BH", OracleDbType.Varchar2,100),
 					new OracleParameter(":BT", OracleDbType.Varchar2,200),
-					new OracleParameter(":FYR", OracleDbType.Varchar2,50),
+					new OracleParameter(":FYR", OracleDbType.Varchar2,100),
 					new OracleParameter(":FYRQ", OracleDbType.Date),
 					new OracleParameter(":FYLX", OracleDbType.Varchar2,36),
 					new OracleParameter(":FYNR", OracleDbType.Clob),
@@ -124,7 +124,7 @@ namespace DAL
 			OracleParameter[] parameters = {
 					new OracleParameter(":BH", OracleDbType.Varchar2,100),
 					new OracleParameter(":BT", OracleDbType.Varchar2,200),
-					new OracleParameter(":FYR", OracleDbType.Varchar2,50),
+					new OracleParameter(":FYR", OracleDbType.Varchar2,100),
 					new OracleParameter(":FYRQ", OracleDbType.Date),
 					new OracleParameter(":FYLX", OracleDbType.Varchar2,36),
 					new OracleParameter(":FYNR", OracleDbType.Clob),
