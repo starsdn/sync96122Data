@@ -44,7 +44,7 @@ namespace syncPlatformData
                 {
                     GetPlatformData();
                     event_showLogs("本次同步民意一期数据完成……");
-                    Thread.Sleep(10 * 1000);//线程等待10s
+                    Thread.Sleep(2 * 1000);//线程等待10s
                 }
                 catch (Exception ex)
                 {
@@ -185,6 +185,7 @@ namespace syncPlatformData
                                 sw.Close();
                                 fs.Close();
                                 // Class1 cl = new Class1();
+                                strMaxid = dr["ID"].ToString();
                                 event_showLogs("成功更新configs/maxid.txt最大ID：" + dr["ID"]);
                                 SysLog.WriteOptDisk("成功更新configs/maxid.txt最大ID：" + dr["ID"], AppDomain.CurrentDomain.BaseDirectory, 100);
                             }

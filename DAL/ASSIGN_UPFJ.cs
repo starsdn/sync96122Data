@@ -33,7 +33,7 @@ namespace DAL
 					new OracleParameter(":UP_ID", OracleDbType.Varchar2,36),
 					new OracleParameter(":IP", OracleDbType.Varchar2,30),
 					new OracleParameter(":FJDZ", OracleDbType.Varchar2,200),
-					new OracleParameter(":FJMC", OracleDbType.Varchar2,100),
+					new OracleParameter(":FJMC", OracleDbType.Varchar2,200),
 					new OracleParameter(":CREATETIME", OracleDbType.Date),
 					new OracleParameter(":CREATOR", OracleDbType.Varchar2,36)};
 			parameters[0].Value = model.ID;
@@ -74,7 +74,7 @@ namespace DAL
 					new OracleParameter(":UP_ID", OracleDbType.Varchar2,36),
 					new OracleParameter(":IP", OracleDbType.Varchar2,30),
 					new OracleParameter(":FJDZ", OracleDbType.Varchar2,200),
-					new OracleParameter(":FJMC", OracleDbType.Varchar2,100),
+					new OracleParameter(":FJMC", OracleDbType.Varchar2,200),
 					new OracleParameter(":CREATETIME", OracleDbType.Date),
 					new OracleParameter(":CREATOR", OracleDbType.Varchar2,36)};
 			parameters[0].Value = model.ID;
