@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DealAsmx.aspx.cs" Inherits="web_96122.DealAsmx" %>
