@@ -24,11 +24,11 @@ namespace web_96122
             byte[] byts = new byte[Request.InputStream.Length];
             Request.InputStream.Read(byts, 0, byts.Length);
             string req = HttpUtility.UrlDecode(System.Text.Encoding.Default.GetString(byts));
-            string strTest = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><soapenv:Body><AddInfo xmlns=\"http://tempuri.org/\"><intNum>19062115411641161431</intNum><title>&#x54A8;(&#x67E5;)&#x8BE2;:&#x8F66;&#x9A7E;&#x7BA1;&#x7406;</title><content>&#x5176;&#x4ED6;</content><redeptid>2341</redeptid></AddInfo></soapenv:Body></soapenv:Envelope>";
-            string strResponse = DealXML(strTest);
-            // DealXML(req);
-            //string strXml = HttpUtility.UrlDecode(Request.QueryString["xmldata"]);//得到对应的xml并解码
-            //  string strResponse = "<string xmlns=\"http://webServices.tmri.com\"><?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code> <message></message> <keystr>3</keystr> </head> <body> </body> </root></string>";
+            //string strTest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><soapenv:Body><AddInfo xmlns=\"http://tempuri.org/\"><intNum>19062115411641161431</intNum><title>&#x54A8;(&#x67E5;)&#x8BE2;:&#x8F66;&#x9A7E;&#x7BA1;&#x7406;</title><content>&#x5176;&#x4ED6;</content><redeptid>2341</redeptid></AddInfo></soapenv:Body></soapenv:Envelope>";
+            //string strResponse = DealXML(strTest);
+            DealXML(req);
+            string strXml = HttpUtility.UrlDecode(Request.QueryString["xmldata"]);//得到对应的xml并解码
+            string strResponse = "<string xmlns=\"http://webServices.tmri.com\"><?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code> <message></message> <keystr>3</keystr> </head> <body> </body> </root></string>";
             Response.Write(strResponse);
         }
         /// <summary>
@@ -39,8 +39,8 @@ namespace web_96122
         private string DealXML(string strXml)
         {
             sysLog.WriteOptDisk(strXml);
-            // string strResponse = "<AddInfoResponse xmlns=\"http://tempuri.org/\"><AddInfoResult><?xml version=\"1.0\" encoding=\"UTF - 8\"?><int xmlns = \"http://tempuri.org/\" >{0}</ int ></AddInfoResult></AddInfoResponse>";
-            string strResponse = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><int xmlns = \"http://tempuri.org/\" >{0}</ int >";
+            // string strResponse = "<AddInfoResponse xmlns=\"http://tempuri.org/\"><AddInfoResult><?xml version=\"1.0\" encoding=\"UTF-8\"?><int xmlns =\"http://tempuri.org/\">{0}</int></AddInfoResult></AddInfoResponse>";
+            string strResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><int xmlns=\"http://tempuri.org/\">{0}</int>";
             string strKey = "";
             try
             {
@@ -123,6 +123,7 @@ namespace web_96122
                         string inwork_guid = Guid.NewGuid().ToString("N").ToUpper();//处办id
                         AddInwork(inwork_guid, assign_guid, depguid);
                         #endregion
+                        sysLog.WriteOptDisk("录入成功");
                     }
                     catch (Exception e)
                     {
@@ -138,6 +139,7 @@ namespace web_96122
                 rp.MethodName = "AddInfo";
                 rp.Parames = hashParam;
                 rp.URL = "http://" + Request.Url.Authority + "/old_website/info.asmx";
+                sysLog.WriteOptDisk("一路请求老网站webservice 【url】" + "http://" + Request.Url.Authority + "/old_website/info.asmx");
                 SoapWebService soapWebService = new SoapWebService();
                 XmlDocument xmlRes = soapWebService.RequestWebService(rp);
 
@@ -166,6 +168,7 @@ namespace web_96122
             }
             catch (Exception ex)
             {
+                sysLog.WriteOptDisk("DealXML异常【error】" + ex.Message + ex.StackTrace);
                 return string.Format(strResponse, "$E", ex.Message, strKey);
             }
         }
