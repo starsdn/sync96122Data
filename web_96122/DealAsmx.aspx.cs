@@ -186,9 +186,9 @@ namespace web_96122
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into CON_JLYEE(");
-            strSql.Append("ID,BH,BT,FYNR,JBRQ,CJR,CJSJ,ZT,INTNUM)");
+            strSql.Append("ID,BH,BT,FYNR,JBRQ,CJR,CJSJ,ZT,FYRQ,INTNUM)");
             strSql.Append(" values (");
-            strSql.Append(":ID,:BH,:BT,:FYNR,:JBRQ,:CJR,:CJSJ,:ZT,:INTNUM)");
+            strSql.Append(":ID,:BH,:BT,:FYNR,:JBRQ,:CJR,:CJSJ,:ZT,:FYRQ,:INTNUM)");
             OracleParameter[] parameters = {
                     new OracleParameter(":ID", OracleType.VarChar,36),
                     new OracleParameter(":BH", OracleType.VarChar,100),
@@ -198,6 +198,7 @@ namespace web_96122
                     new OracleParameter(":CJR", OracleType.VarChar,36),
                     new OracleParameter(":CJSJ", OracleType.DateTime),
                     new OracleParameter(":ZT", OracleType.Int32,1),
+                    new OracleParameter(":FYRQ", OracleType.DateTime),
                     new OracleParameter(":INTNUM",OracleType.VarChar,50)};
             parameters[0].Value = con_guid;
             parameters[1].Value = intnum;
@@ -207,7 +208,8 @@ namespace web_96122
             parameters[5].Value = "96122";
             parameters[6].Value = DateTime.Now;
             parameters[7].Value = 1;
-            parameters[8].Value = intnum;
+            parameters[8].Value = DateTime.Now;
+            parameters[9].Value = intnum;
 
             int rows = DbHelperOra.ExecuteSql(strSql.ToString(), parameters);
             return rows;
