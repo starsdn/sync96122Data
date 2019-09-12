@@ -1,0 +1,15 @@
+时间:2019-09-12 15:51:05 515	操作信息:<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><AddInfo xmlns="http://tempuri.org/"><intNum>19062115411641161431</intNum><title>&#x54A8;(&#x67E5;)&#x8BE2;:&#x8F66;&#x9A7E;&#x7BA1;&#x7406;</title><content>&#x5176;&#x4ED6;</content><redeptid>2341</redeptid></AddInfo></soapenv:Body></soapenv:Envelope>	
+
+
+时间:2019-09-12 15:51:38 5138	操作信息:录入成功	
+
+
+时间:2019-09-12 15:51:41 5141	操作信息:一路请求老网站webservice 【url】http://localhost:36637/old_website/info.asmx	
+
+
+时间:2019-09-12 15:51:49 5149	操作信息:DealXML异常【error】远程服务器返回错误: (404) 未找到。   在 System.Net.HttpWebRequest.GetResponse()
+   在 web_96122.webService.SoapWebService.GetNamespace(String URL) 位置 F:\Program\sync96122Data\web_96122\webService\SoapWebService.cs:行号 63
+   在 web_96122.webService.SoapWebService.RequestWebService(ResquestParams rp) 位置 F:\Program\sync96122Data\web_96122\webService\SoapWebService.cs:行号 27
+   在 web_96122.DealAsmx.DealXML(String strXml) 位置 F:\Program\sync96122Data\web_96122\DealAsmx.aspx.cs:行号 144	
+
+
