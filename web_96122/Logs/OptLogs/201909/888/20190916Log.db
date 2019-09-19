@@ -1,0 +1,13 @@
+时间:2019-09-16 08:56:43 5643	操作信息:	
+
+
+时间:2019-09-16 08:56:43 5643	操作信息:DealXML异常【error】缺少根元素。   在 System.Xml.XmlTextReaderImpl.Throw(Exception e)
+   在 System.Xml.XmlTextReaderImpl.ThrowWithoutLineInfo(String res)
+   在 System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   在 System.Xml.XmlTextReaderImpl.Read()
+   在 System.Xml.XmlLoader.Load(XmlDocument doc, XmlReader reader, Boolean preserveWhitespace)
+   在 System.Xml.XmlDocument.Load(XmlReader reader)
+   在 System.Xml.XmlDocument.LoadXml(String xml)
+   在 web_96122.DealAsmx.DealXML(String strXml) 位置 F:\Program\sync96122Data\web_96122\DealAsmx.aspx.cs:行号 57	
+
+
