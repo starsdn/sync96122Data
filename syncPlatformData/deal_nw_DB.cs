@@ -152,14 +152,20 @@ namespace syncPlatformData
                     Model.ASSIGN_UPREPORT model_upreport = UpReportModel(assign_guid, upreport_guid, upReportMyly, dr);
 
                     // 添加上报附件数据
-                    string fjdz = dr["REPLY_CONTENTFILE"].ToString();//答复附件地址
-                    if (!string.IsNullOrWhiteSpace(fjdz))
+                    try
                     {
-                        Model.ASSIGN_UPFJ model_upfj = UpFJModel(upreport_guid, dr);
-                        bool upfjres = new BLL.ASSIGN_UPFJ().Add(model_upfj);
+                        string fjdz = dr["REPLY_CONTENTFILE"].ToString();//答复附件地址
+                        if (!string.IsNullOrWhiteSpace(fjdz))
+                        {
+                            Model.ASSIGN_UPFJ model_upfj = UpFJModel(upreport_guid, dr);
+                            bool upfjres = new BLL.ASSIGN_UPFJ().Add(model_upfj);
+                        }
+                        // 添加时间轴数据
                     }
-                    // 添加时间轴数据
-
+                    catch (Exception ex)
+                    {
+                        SysLog.WriteLog(ex, AppDomain.CurrentDomain.BaseDirectory);
+                    }
 
                     try
                     {
@@ -260,7 +266,10 @@ namespace syncPlatformData
                         //hswz_model.LDPS = "";//领导批示
                         //hswz_model.BZ = "";//备注
                         hswz_model.CJR = "民意一期";//创建人
-                        hswz_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            hswz_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
                         hswz_model.ZT = 1;// 状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         //hswz_model.FPSJ = null;//分配时间
                         hswz_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
@@ -297,7 +306,11 @@ namespace syncPlatformData
                         //yessw_model.BZ = "";//备注
                         //yessw_model.LDPS = "";//领导批示
                         yessw_model.CJR = "民意一期";//创建人
-                        yessw_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间（时间格式，便于数据库查看）
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            yessw_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //yessw_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间（时间格式，便于数据库查看）
                         yessw_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         //yessw_model.XBDW = "";//协办单位
                         yessw_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
@@ -318,7 +331,7 @@ namespace syncPlatformData
                         }
                         //jlyee_model.SJR = "";//收件人
                         //jlyee_model.BT = "";//标题
-                        jlyee_model.NRZR = dr["ZHAIYAO"].ToString();//内容摘要
+                        jlyee_model.NRZY = dr["ZHAIYAO"].ToString();//内容摘要
                         jlyee_model.FYNR = dr["SUMMARY"].ToString();//反映内容
                         jlyee_model.FJDZ = fjdz;//附件地址
                         if (!string.IsNullOrWhiteSpace(jbrqstr))
@@ -329,7 +342,11 @@ namespace syncPlatformData
                         jlyee_model.SSLB = 0;//所属类别0.其他 1.投诉  2.建议 3.咨询 4.举报 5.求助 6.表扬
                         //jlyee_model.BZ = "";//备注
                         jlyee_model.CJR = "民意一期";//创建人
-                        jlyee_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            jlyee_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //jlyee_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         jlyee_model.ZT = 1;//状态( 0.删除 1.有效)
                                            //jlyee_model.XJLY = "";// 信件来源
                         bool jlyee_res = new BLL.CON_JLYEE().Add(jlyee_model);
@@ -368,7 +385,11 @@ namespace syncPlatformData
                         //qtzxx_model.LDPS = "";//领导批示
                         //qtzxx_model.BZ = "";//备注
                         qtzxx_model.CJR = "民意一期";//创建人
-                        qtzxx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            qtzxx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //qtzxx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         qtzxx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         qtzxx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
                                                                        //qtzxx_model.XJLY = "";//信件来源
@@ -408,7 +429,11 @@ namespace syncPlatformData
                         //xftx_model.LDPS = "";//领导批示
                         //xftx_model.BZ = "";//备注
                         xftx_model.CJR = "民意一期";//创建人
-                        xftx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            xftx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //xftx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         xftx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         xftx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
 
@@ -447,7 +472,11 @@ namespace syncPlatformData
                         //jwtx_model.LDPS = "";//领导批示
                         //jwtx_model.BZ = "";//备注
                         jwtx_model.CJR = "民意一期";//创建人
-                        jwtx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            jwtx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //jwtx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         jwtx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         jwtx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
                         //jwtx_model.XJLY = "";//信件来源
@@ -489,7 +518,11 @@ namespace syncPlatformData
                         //zdxjzb_model.LDPS = "";//领导批示
                         //zdxjzb_model.BZ = "";//备注
                         zdxjzb_model.CJR = "民意一期";//创建人
-                        zdxjzb_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            zdxjzb_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //zdxjzb_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         zdxjzb_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         zdxjzb_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
                         //zdxjzb_model.XJLY = "";//信件来源
@@ -530,7 +563,11 @@ namespace syncPlatformData
                         //dcxtlx_model.LDPS = "";//领导批示
                         //dcxtlx_model.BZ = "";//备注
                         dcxtlx_model.CJR = "民意一期";//创建人
-                        dcxtlx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            dcxtlx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //dcxtlx_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         dcxtlx_model.ZT = 1;//状态( 0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         dcxtlx_model.FJM = dr["SUMMARYFILE"].ToString();//附件名拼接
                                                                         //dcxtlx_model.XJLY = "";//信件来源
@@ -570,7 +607,11 @@ namespace syncPlatformData
                         //stzdxjbl_model.LDPS = "";//领导批示
                         //stzdxjbl_model.BZ = "";//备注
                         stzdxjbl_model.CJR = "民意一期";//创建人
-                        stzdxjbl_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+                        {
+                            stzdxjbl_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+                        }
+                        //stzdxjbl_model.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
                         stzdxjbl_model.ZT = 1;//状态(0.删除 1.待交办 2.待答复 3.待答复审核 4.待转办 5.待转办审核 6.退办 7.反馈中 8.回访中 9.办结)
                         stzdxjbl_model.FJM = dr["SUMMARYFILE"].ToString();//附件名
 
@@ -603,7 +644,11 @@ namespace syncPlatformData
             Model.ASSIGN model_assign = new Model.ASSIGN(); //ASSIGN 主表
             model_assign.BZ = "";//备注空
             model_assign.CJR = "民意一期";//创建人
-            model_assign.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+            {
+                model_assign.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            }
+            //model_assign.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
             //model_assign.HFNR = "";//各部门回复内容汇总
             model_assign.ID = assign_guid;
             model_assign.JBDW = jbdw;//交办单位
@@ -635,7 +680,11 @@ namespace syncPlatformData
             Model.INWORK model_inwork = new Model.INWORK();//处办表
             model_inwork.ID = inwork_guid;
             model_inwork.CJR = "民意一期";//创建人
-            model_inwork.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+            {
+                model_inwork.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            }
+            //model_inwork.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
             model_inwork.ISTX = 0;
             model_inwork.ISZB = 2;//1 是 2否  是否转办
             model_inwork.JBDW = jbdw;//交办单位
@@ -662,7 +711,11 @@ namespace syncPlatformData
             model_reply.HFNR = dr["REPLY_CONTENT"].ToString();//回复内容
             model_reply.ZT = 1;//状态
             model_reply.CJR = "民意一期";//创建人
-            model_reply.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+            {
+                model_reply.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            }
+            //model_reply.CJSJ = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
             model_reply.CBLX = 1;//处办类型
             string fjdz = dr["REPLY_CONTENTFILEOLD"].ToString();//答复附件地址
             if (!string.IsNullOrWhiteSpace(fjdz))
@@ -696,7 +749,11 @@ namespace syncPlatformData
             model_upreport.ASSIGN_ID = assign_guid;//交办id
             model_upreport.DEALCONTENT = dr["REPLY_CONTENT"].ToString(); //调查内容
             model_upreport.FYLX = fyle_MY2;//反映类型
-            model_upreport.CREATETIME = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+            {
+                model_upreport.CREATETIME = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            }
+            //model_upreport.CREATETIME = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
             model_upreport.CREATOR = "民意一期";
             model_upreport.MYLY = upReportMyly;//民意来源 1寒山闻钟论坛；2：12345热线；3纪委条线；4：信访条线；5省厅、总队信件办理；6督察条线来信；7支队信件转办；8其他自选项；9：96122
             return model_upreport;
@@ -723,7 +780,10 @@ namespace syncPlatformData
             model_upfj.IP = dzip;//ip加端口
             model_upfj.FJDZ = dzpath;// 附件相对地址
             model_upfj.FJMC = dzmc; //附件名称
-            model_upfj.CREATETIME = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            if (!string.IsNullOrWhiteSpace(dr["CREATE_DATE"].ToString()))
+            {
+                model_upfj.CREATETIME = Convert.ToDateTime(dr["CREATE_DATE"].ToString());//创建时间
+            }
             model_upfj.CREATOR = "民意一期";
             return model_upfj;
         }

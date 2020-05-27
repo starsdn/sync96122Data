@@ -21,11 +21,11 @@ namespace Model
         private DateTime? _fyrq;
         private string _sjr;
         private string _bt;
-        private string _nrzr;
+        private string _nrzy;
         private string _fynr;
         private string _fjdz;
         private DateTime? _jbrq;
-        private DateTime? _bjrq;
+        private DateTime? _blqx;
         private decimal? _sslb;
         private string _bz;
         private string _cjr;
@@ -99,10 +99,10 @@ namespace Model
         /// <summary>
         /// 内容摘要
         /// </summary>
-        public string NRZR
+        public string NRZY
         {
-            set { _nrzr = value; }
-            get { return _nrzr; }
+            set { _nrzy = value; }
+            get { return _nrzy; }
         }
         /// <summary>
         /// 反映内容
@@ -131,10 +131,10 @@ namespace Model
         /// <summary>
         /// 办结日期
         /// </summary>
-        public DateTime? BJRQ
+        public DateTime? BLQX
         {
-            set { _bjrq = value; }
-            get { return _bjrq; }
+            set { _blqx = value; }
+            get { return _blqx; }
         }
         /// <summary>
         /// 所属类别1.投诉  2.建议 3.咨询 4.举报 5.求助 6.表扬

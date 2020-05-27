@@ -39,9 +39,9 @@ namespace DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into CON_JLYEE(");
-            strSql.Append("ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZR,FYNR,FJDZ,JBRQ,BJRQ,SSLB,BZ,CJR,CJSJ,ZT,XJLY)");
+            strSql.Append("ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZY,FYNR,FJDZ,JBRQ,BLQX,SSLB,BZ,CJR,CJSJ,ZT,XJLY)");
             strSql.Append(" values (");
-            strSql.Append(":ID,:BH,:SJBH,:FYR,:LXDH,:FYRQ,:SJR,:BT,:NRZR,:FYNR,:FJDZ,:JBRQ,:BJRQ,:SSLB,:BZ,:CJR,:CJSJ,:ZT,:XJLY)");
+            strSql.Append(":ID,:BH,:SJBH,:FYR,:LXDH,:FYRQ,:SJR,:BT,:NRZY,:FYNR,:FJDZ,:JBRQ,:BLQX,:SSLB,:BZ,:CJR,:CJSJ,:ZT,:XJLY)");
             OracleParameter[] parameters = {
                     new OracleParameter(":ID", OracleDbType.Varchar2,36),
                     new OracleParameter(":BH", OracleDbType.Varchar2,100),
@@ -51,11 +51,11 @@ namespace DAL
                     new OracleParameter(":FYRQ", OracleDbType.Date),
                     new OracleParameter(":SJR", OracleDbType.Varchar2,50),
                     new OracleParameter(":BT", OracleDbType.Varchar2,500),
-                    new OracleParameter(":NRZR", OracleDbType.Varchar2,4000),
+                    new OracleParameter(":NRZY", OracleDbType.Varchar2,4000),
                     new OracleParameter(":FYNR", OracleDbType.Clob),
                     new OracleParameter(":FJDZ", OracleDbType.Varchar2,300),
                     new OracleParameter(":JBRQ", OracleDbType.Date),
-                    new OracleParameter(":BJRQ", OracleDbType.Date),
+                    new OracleParameter(":BLQX", OracleDbType.Date),
                     new OracleParameter(":SSLB", OracleDbType.Int32,1),
                     new OracleParameter(":BZ", OracleDbType.Varchar2,500),
                     new OracleParameter(":CJR", OracleDbType.Varchar2,36),
@@ -70,11 +70,11 @@ namespace DAL
             parameters[5].Value = model.FYRQ;
             parameters[6].Value = model.SJR;
             parameters[7].Value = model.BT;
-            parameters[8].Value = model.NRZR;
+            parameters[8].Value = model.NRZY;
             parameters[9].Value = model.FYNR;
             parameters[10].Value = model.FJDZ;
             parameters[11].Value = model.JBRQ;
-            parameters[12].Value = model.BJRQ;
+            parameters[12].Value = model.BLQX;
             parameters[13].Value = model.SSLB;
             parameters[14].Value = model.BZ;
             parameters[15].Value = model.CJR;
@@ -106,11 +106,11 @@ namespace DAL
             strSql.Append("FYRQ=:FYRQ,");
             strSql.Append("SJR=:SJR,");
             strSql.Append("BT=:BT,");
-            strSql.Append("NRZR=:NRZR,");
+            strSql.Append("NRZY=:NRZY,");
             strSql.Append("FYNR=:FYNR,");
             strSql.Append("FJDZ=:FJDZ,");
             strSql.Append("JBRQ=:JBRQ,");
-            strSql.Append("BJRQ=:BJRQ,");
+            strSql.Append("BLQX=:BLQX,");
             strSql.Append("SSLB=:SSLB,");
             strSql.Append("BZ=:BZ,");
             strSql.Append("CJR=:CJR,");
@@ -125,11 +125,11 @@ namespace DAL
                     new OracleParameter(":FYRQ", OracleDbType.Date),
                     new OracleParameter(":SJR", OracleDbType.Varchar2,50),
                     new OracleParameter(":BT", OracleDbType.Varchar2,500),
-                    new OracleParameter(":NRZR", OracleDbType.Varchar2,4000),
+                    new OracleParameter(":NRZY", OracleDbType.Varchar2,4000),
                     new OracleParameter(":FYNR", OracleDbType.Clob),
                     new OracleParameter(":FJDZ", OracleDbType.Varchar2,300),
                     new OracleParameter(":JBRQ", OracleDbType.Date),
-                    new OracleParameter(":BJRQ", OracleDbType.Date),
+                    new OracleParameter(":BLQX", OracleDbType.Date),
                     new OracleParameter(":SSLB", OracleDbType.Int32,1),
                     new OracleParameter(":BZ", OracleDbType.Varchar2,500),
                     new OracleParameter(":CJR", OracleDbType.Varchar2,36),
@@ -143,11 +143,11 @@ namespace DAL
             parameters[4].Value = model.FYRQ;
             parameters[5].Value = model.SJR;
             parameters[6].Value = model.BT;
-            parameters[7].Value = model.NRZR;
+            parameters[7].Value = model.NRZY;
             parameters[8].Value = model.FYNR;
             parameters[9].Value = model.FJDZ;
             parameters[10].Value = model.JBRQ;
-            parameters[11].Value = model.BJRQ;
+            parameters[11].Value = model.BLQX;
             parameters[12].Value = model.SSLB;
             parameters[13].Value = model.BZ;
             parameters[14].Value = model.CJR;
@@ -216,7 +216,7 @@ namespace DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZR,FYNR,FJDZ,JBRQ,BJRQ,SSLB,BZ,CJR,CJSJ,ZT from CON_JLYEE ");
+            strSql.Append("select ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZY,FYNR,FJDZ,JBRQ,BLQX,SSLB,BZ,CJR,CJSJ,ZT from CON_JLYEE ");
             strSql.Append(" where ID=:ID ");
             OracleParameter[] parameters = {
                     new OracleParameter(":ID", OracleDbType.Varchar2,36)           };
@@ -275,7 +275,7 @@ namespace DAL
                 {
                     model.BT = row["BT"].ToString();
                 }
-                //model.NRZR=row["NRZR"].ToString();
+                //model.NRZY=row["NRZY"].ToString();
                 //model.FYNR=row["FYNR"].ToString();
                 if (row["FJDZ"] != null)
                 {
@@ -285,9 +285,9 @@ namespace DAL
                 {
                     model.JBRQ = DateTime.Parse(row["JBRQ"].ToString());
                 }
-                if (row["BJRQ"] != null && row["BJRQ"].ToString() != "")
+                if (row["BLQX"] != null && row["BLQX"].ToString() != "")
                 {
-                    model.BJRQ = DateTime.Parse(row["BJRQ"].ToString());
+                    model.BLQX = DateTime.Parse(row["BLQX"].ToString());
                 }
                 if (row["SSLB"] != null && row["SSLB"].ToString() != "")
                 {
@@ -319,7 +319,7 @@ namespace DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZR,FYNR,FJDZ,JBRQ,BJRQ,SSLB,BZ,CJR,CJSJ,ZT ");
+            strSql.Append("select ID,BH,SJBH,FYR,LXDH,FYRQ,SJR,BT,NRZY,FYNR,FJDZ,JBRQ,BLQX,SSLB,BZ,CJR,CJSJ,ZT ");
             strSql.Append(" FROM CON_JLYEE ");
             if (strWhere.Trim() != "")
             {
